@@ -12,22 +12,8 @@ const Table = () => {
   const [modal, setModal] = React.useState(false);
   const [current, setCur] = React.useState([]);
 
-  const getUsers = async () => {
-    const res = await getAllPerson(ALL_USERS);
-    setPeople(res.users);
-  };
-  React.useEffect(() => {
-    getUsers();
-  }, []);
-  const idHandler = (id) => {
-    if (id === current) setCur([]);
-    setCur(id);
-
-    setModal(true);
-  };
-
   const columns = React.useMemo(() => GPOUPED_COL, []);
-  const data = React.useMemo(() => people, []);
+  const data = people;
 
   const {
     getTableProps,
@@ -45,6 +31,22 @@ const Table = () => {
     useGlobalFilter
   );
   const { globalFilter } = state;
+
+  const getUsers = async () => {
+    const res = await getAllPerson(ALL_USERS);
+    setPeople(res.users);
+  };
+
+  React.useEffect(() => {
+    getUsers();
+  }, []);
+
+  const idHandler = (id) => {
+    if (id === current) setCur([]);
+    setCur(id);
+
+    setModal(true);
+  };
 
   return (
     <div className="wrapper">
